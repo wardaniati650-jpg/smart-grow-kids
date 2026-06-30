@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartGrow Kids - Game Edukasi Kognitif Anak</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Google & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #F0F9FF;
+        }
+        .font-kids {
+            font-family: 'Fredoka', sans-serif;
+        }
+        /* Kustomisasi scrollbar ceria */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E0F2FE;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #38BDF8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0284C7;
+        }
+        /* Animasi mengambang */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+        .float-animation {
+            animation: float 4s ease-in-out infinite;
+        }
+        /* Transisi halus */
+        .page-transition {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden min-h-screen flex flex-col justify-between text-slate-800">
+
+    <!-- HEADER / NAVIGATION BAR -->
+    <header class="bg-white border-b-4 border-yellow-300 shadow-sm sticky top-0 z-50 transition-all">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo Brand -->
+            <div onclick="goToHome()" class="flex items-center space-x-3 cursor-pointer">
+                <div class="bg-gradient-to-tr from-sky-400 to-indigo-500 text-white p-2.5 rounded-2xl shadow-md transform hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold font-kids tracking-wider text-sky-600 flex items-center">
+                        Smart<span class="text-amber-500">Grow</span>&nbsp;<span class="text-emerald-500">Kids</span>
+                    </h1>
+                    <p class="text-xs text-slate-400 font-semibold tracking-wide">Cognitive Growth Companion</p>
+                </div>
+            </div>
+
+            <!-- Menu Kanan (Status Pengguna) -->
+            <div id="header-user-status" class="flex items-center space-x-3">
+                <!-- Akan dirender dinamis lewat JS -->
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow flex items-center justify-center p-4 md:p-8 max-w-7xl mx-auto w-full">
+        
+        <!-- ============================================== -->
+        <!-- SECTION 1: LOGIN PAGE / WELCOME HERO          -->
+        <!-- ============================================== -->
+        <div id="page-login" class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-12 gap-8 items-center py-6">
+            <!-- Sisi Ilustrasi Kiri -->
+            <div class="md:col-span-6 flex flex-col justify-center space-y-6 text-center md:text-left">
+                <div class="float-animation inline-block mx-auto md:mx-0">
+                    <span class="bg-yellow-100 text-yellow-600 px-4 py-2 rounded-full font-bold text-sm tracking-wider font-kids uppercase">
+                        🌈 Bermain Sambil Belajar
+                    </span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-kids font-bold text-slate-800 leading-tight">
+                    Tumbuh Cerdas &amp; Hebat Bersama <span class="text-sky-500">SmartGrow!</span>
+                </h2>
+                <p class="text-slate-600 text-base md:text-lg leading-relaxed">
+                    Game interaktif berbasis perkembangan kognitif untuk anak usia 3 hingga 6 tahun. Dilengkapi dengan evaluasi grafik perkembangan langsung untuk dipantau Ayah &amp; Bunda.
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center md:justify-start pt-2">
+                    <div class="flex items-center space-x-2 bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1.5 rounded-xl text-sm font-semibold">
+                        <i class="fa-solid fa-check-circle"></i> <span>Metode Ilmiah</span>
+                    </div>
+                    <div class="flex items-center space-x-2 bg-sky-50 border border-sky-200 text-sky-700 px-3 py-1.5 rounded-xl text-sm font-semibold">
+                        <i class="fa-solid fa-check-circle"></i> <span>Aman untuk Anak</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sisi Form Kanan -->
+            <div class="md:col-span-6 bg-white rounded-3xl shadow-xl border-4 border-sky-200 p-6 md:p-8 relative overflow-hidden">
+                <!-- Tab Selector -->
+                <div class="flex bg-slate-100 p-1.5 rounded-2xl mb-6">
+                    <button id="tab-login-child" onclick="switchLoginTab('child')" class="flex-1 py-3 text-center rounded-xl font-bold font-kids text-lg transition-all bg-white text-sky-600 shadow-sm">
+                        <i class="fa-solid fa-face-laugh-beam mr-2"></i>Anak
+                    </button>
+                    <button id="tab-login-parent" onclick="switchLoginTab('parent')" class="flex-1 py-3 text-center rounded-xl font-bold font-kids text-lg transition-all text-slate-500 hover:text-slate-800">
+                        <i class="fa-solid fa-shield-halved mr-2"></i>Orang Tua
+                    </button>
+                </div>
+
+                <!-- FORM: LOGIN ANAK -->
+                <div id="form-login-child" class="space-y-5">
+                    <div>
+                        <label class="block text-slate-700 font-bold mb-2 text-sm md:text-base">Siapa Namamu, Sayang? ✨</label>
+                        <input type="text" id="child-name-input" placeholder="Masukkan nama panggilanmu" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-sky-400 focus:ring-0 outline-none transition-all font-semibold">
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-700 font-bold mb-2 text-sm">Berapa Umurmu saat ini? 🎈</label>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button onclick="selectAge(3)" id="btn-age-3" class="age-btn py-3 bg-white border-2 border-slate-200 rounded-2xl font-bold font-kids text-lg hover:border-sky-400 transition-all flex flex-col items-center justify-center">
+                                <span class="text-xl">3</span>
+                                <span class="text-xs text-slate-500">Tahun</span>
+                            </button>
+                            <button onclick="selectAge(4)" id="btn-age-4" class="age-btn py-3 bg-white border-2 border-slate-200 rounded-2xl font-bold font-kids text-lg hover:border-sky-400 transition-all flex flex-col items-center justify-center">
+                                <span class="text-xl">4</span>
+                                <span class="text-xs text-slate-500">Tahun</span>
+                            </button>
+                            <button onclick="selectAge(5)" id="btn-age-5" class="age-btn py-3 bg-white border-2 border-slate-200 rounded-2xl font-bold font-kids text-lg hover:border-sky-400 transition-all flex flex-col items-center justify-center">
+                                <span class="text-xl">5</span>
+                                <span class="text-xs text-slate-500">Tahun</span>
+                            </button>
+                            <button onclick="selectAge(6)" id="btn-age-6" class="age-btn py-3 bg-white border-2 border-slate-200 rounded-2xl font-bold font-kids text-lg hover:border-sky-400 transition-all flex flex-col items-center justify-center">
+                                <span class="text-xl">6</span>
+                                <span class="text-xs text-slate-500">Tahun</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-700 font-bold mb-2 text-sm">Pilih Karakter Favoritmu! 🐯</label>
+                        <div class="grid grid-cols-5 gap-2">
+                            <button onclick="selectAvatar('🐰')" id="avatar-🐰" class="avatar-btn py-2 text-2xl bg-white border-2 border-slate-200 rounded-2xl hover:border-sky-400 transition-all transform hover:scale-110">🐰</button>
+                            <button onclick="selectAvatar('🦁')" id="avatar-🦁" class="avatar-btn py-2 text-2xl bg-white border-2 border-slate-200 rounded-2xl hover:border-sky-400 transition-all transform hover:scale-110">🦁</button>
+                            <button onclick="selectAvatar('🦊')" id="avatar-🦊" class="avatar-btn py-2 text-2xl bg-white border-2 border-slate-200 rounded-2xl hover:border-sky-400 transition-all transform hover:scale-110">🦊</button>
+                            <button onclick="selectAvatar('🐼')" id="avatar-🐼" class="avatar-btn py-2 text-2xl bg-white border-2 border-slate-200 rounded-2xl hover:border-sky-400 transition-all transform hover:scale-110">🐼</button>
+                            <button onclick="selectAvatar('🐱')" id="avatar-🐱" class="avatar-btn py-2 text-2xl bg-white border-2 border-slate-200 rounded-2xl hover:border-sky-400 transition-all transform hover:scale-110">🐱</button>
+                        </div>
+                    </div>
+
+                    <button onclick="handleChildLogin()" class="w-full bg-gradient-to-r from-emerald-400 to-teal-500 text-white font-kids font-bold text-xl py-4 rounded-2xl shadow-md hover:from-emerald-500 hover:to-teal-600 transition-all transform active:scale-95 flex items-center justify-center space-x-2">
+                        <span>Ayo Mulai Bermain!</span> <i class="fa-solid fa-play"></i>
+                    </button>
+                </div>
+
+                <!-- FORM: LOGIN ORANG TUA -->
+                <div id="form-login-parent" class="space-y-5 hidden">
+                    <div class="bg-indigo-50 border border-indigo-100 text-indigo-800 p-4 rounded-2xl text-xs md:text-sm">
+                        <i class="fa-solid fa-circle-info mr-1 text-base align-middle"></i> Mode ini khusus untuk Ayah/Bunda memantau hasil perkembangan kognitif Ananda.
+                    </div>
+                    <div>
+                        <label class="block text-slate-700 font-bold mb-2 text-sm">Alamat Email Orang Tua</label>
+                        <input type="email" id="parent-email-input" value="bunda.dinda@email.com" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-indigo-400 focus:ring-0 outline-none transition-all font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-slate-700 font-bold mb-2 text-sm">Kata Sandi</label>
+                        <input type="password" id="parent-password-input" value="123456" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-indigo-400 focus:ring-0 outline-none transition-all font-semibold">
+                    </div>
+
+                    <button onclick="handleParentLogin()" class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-kids font-bold text-lg py-4 rounded-2xl shadow-md hover:from-indigo-600 hover:to-purple-700 transition-all transform active:scale-95 flex items-center justify-center space-x-2">
+                        <span>Masuk ke Dashboard</span> <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SECTION 2: CHILD DASHBOARD                     -->
+        <!-- ============================================== -->
+        <div id="page-child-dashboard" class="w-full max-w-5xl hidden space-y-6 py-4">
+            <!-- Header Kartu Karakter -->
+            <div class="bg-gradient-to-r from-sky-400 via-indigo-400 to-purple-500 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="flex items-center space-x-5">
+                    <div class="text-6xl bg-white/20 p-4 rounded-3xl shadow-inner border border-white/30 float-animation" id="dash-avatar">
+                        🐰
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-kids font-bold" id="dash-welcome">Halo, Dinda!</h2>
+                        <p class="text-sky-100 font-semibold flex items-center mt-1">
+                            <span class="bg-white/20 px-3 py-0.5 rounded-full text-xs font-bold mr-2 border border-white/20" id="dash-age">Usia: 5 Tahun</span>
+                            <span>Yuk, taklukkan tantangan cerdas hari ini!</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Reward Mini Dashboard -->
+                <div class="flex items-center space-x-6 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-2xl border border-white/20">
+                    <div class="text-center">
+                        <p class="text-xs uppercase font-extrabold tracking-widest text-sky-100">Bintang</p>
+                        <p class="text-2xl font-bold font-kids text-yellow-300 flex items-center justify-center gap-1">
+                            ⭐ <span id="dash-stars">12</span>
+                        </p>
+                    </div>
+                    <div class="h-8 w-px bg-white/20"></div>
+                    <div class="text-center">
+                        <p class="text-xs uppercase font-extrabold tracking-widest text-sky-100">Badge</p>
+                        <p class="text-2xl font-bold font-kids text-amber-300 flex items-center justify-center gap-1">
+                            🏅 <span id="dash-badges-count">3</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bagian Utama Permainan -->
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-2xl font-kids font-bold text-slate-800">🕹️ Pilih Permainanmu</h3>
+                    <span class="bg-sky-100 text-sky-700 px-4 py-1.5 rounded-full text-sm font-bold font-kids" id="game-today-badge">
+                        Misi Hari Ini: 4 Game
+                    </span>
+                </div>
+
+                <!-- Grid Kartu Permainan Sesuai Usia -->
+                <div id="games-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Dinonaktifkan atau dirender secara dinamis lewat JavaScript -->
+                </div>
+            </div>
+
+            <!-- Riwayat Badge yang Diperoleh -->
+            <div class="bg-white rounded-3xl p-6 border-4 border-yellow-200 shadow-sm">
+                <h3 class="text-lg font-kids font-bold text-slate-800 mb-3 flex items-center">
+                    🏅 Lemari Penghargaanmu
+                </h3>
+                <div id="badge-shelf" class="flex flex-wrap gap-4">
+                    <!-- Badge dinamis -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SECTION 3: CORE GAME CONTAINER                -->
+        <!-- ============================================== -->
+        <div id="page-game-arena" class="w-full max-w-3xl hidden bg-white rounded-3xl shadow-xl border-4 border-sky-300 p-6 md:p-8 relative">
+            
+            <!-- Tombol Kembali -->
+            <button onclick="quitGame()" class="absolute top-4 left-4 bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-xl text-sm font-bold transition-all flex items-center space-x-1">
+                <i class="fa-solid fa-arrow-left"></i> <span>Kembali</span>
+            </button>
+
+            <!-- Status Game -->
+            <div class="flex justify-between items-center border-b pb-4 mb-6 pt-6">
+                <div>
+                    <span id="game-arena-tag" class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold font-kids uppercase">
+                        Usia 3 Tahun - Kognitif
+                    </span>
+                    <h2 id="game-arena-title" class="text-2xl font-kids font-bold text-slate-800 mt-1">Nama Game</h2>
+                </div>
+                <div class="text-right">
+                    <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Skor Berjalan</p>
+                    <p class="text-lg font-bold text-emerald-500 flex items-center justify-end">
+                        ⭐ <span id="game-arena-score">0</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- AREA GAME AKTIF (DIPASANG DINAMIS) -->
+            <div id="game-playground" class="min-h-[300px] flex flex-col justify-center items-center py-4">
+                <!-- Konten game dinamis diinject di sini -->
+            </div>
+
+            <!-- Footer Arena Game / Petunjuk Suara -->
+            <div class="mt-6 pt-4 border-t flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-3 text-sm text-slate-500">
+                    <i class="fa-solid fa-lightbulb text-amber-400 text-lg"></i>
+                    <p id="game-instruction-text" class="italic">Klik jawaban yang menurutmu paling tepat!</p>
+                </div>
+                <button onclick="speakInstruction()" class="bg-sky-100 hover:bg-sky-200 text-sky-700 px-4 py-2 rounded-xl text-sm font-bold transition-all flex items-center space-x-2">
+                    <i class="fa-solid fa-volume-high"></i> <span>Dengarkan Petunjuk</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SECTION 4: PARENT DASHBOARD                    -->
+        <!-- ============================================== -->
+        <div id="page-parent-dashboard" class="w-full hidden grid grid-cols-1 lg:grid-cols-12 gap-8 py-2">
+            
+            <!-- Sidebar Navigasi Dashboard Orang Tua -->
+            <div class="lg:col-span-3 bg-white rounded-3xl p-6 border-2 border-slate-200/60 shadow-sm space-y-6">
+                <!-- Profil Singkat Anak yang Dipantau -->
+                <div class="text-center pb-6 border-b border-slate-100">
+                    <div class="text-5xl bg-indigo-50 p-4 rounded-3xl inline-block mb-3 border border-indigo-100">
+                        🐰
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800" id="parent-monitor-child-name">Dinda</h3>
+                    <p class="text-xs text-slate-400 font-semibold" id="parent-monitor-child-meta">Anak Usia 5 Tahun</p>
+                </div>
+
+                <!-- Menu Navigasi Samping -->
+                <nav class="space-y-1">
+                    <button onclick="switchParentTab('beranda')" id="btn-tab-beranda" class="parent-menu-btn w-full flex items-center space-x-3 px-4 py-3 rounded-2xl font-bold transition-all text-indigo-600 bg-indigo-50">
+                        <i class="fa-solid fa-chart-pie w-5"></i> <span>Beranda &amp; Analisis</span>
+                    </button>
+                    <button onclick="switchParentTab('riwayat')" id="btn-tab-riwayat" class="parent-menu-btn w-full flex items-center space-x-3 px-4 py-3 rounded-2xl font-bold transition-all text-slate-600 hover:bg-slate-50">
+                        <i class="fa-solid fa-history w-5"></i> <span>Riwayat Bermain</span>
+                    </button>
+                    <button onclick="switchParentTab('rekomendasi')" id="btn-tab-rekomendasi" class="parent-menu-btn w-full flex items-center space-x-3 px-4 py-3 rounded-2xl font-bold transition-all text-slate-600 hover:bg-slate-50">
+                        <i class="fa-solid fa-graduation-cap w-5"></i> <span>Rekomendasi Ahli</span>
+                    </button>
+                    <button onclick="switchParentTab('pengaturan')" id="btn-tab-pengaturan" class="parent-menu-btn w-full flex items-center space-x-3 px-4 py-3 rounded-2xl font-bold transition-all text-slate-600 hover:bg-slate-50">
+                        <i class="fa-solid fa-sliders w-5"></i> <span>Pengaturan</span>
+                    </button>
+                </nav>
+
+                <div class="pt-6 border-t border-slate-100">
+                    <button onclick="logout()" class="w-full bg-rose-50 text-rose-600 hover:bg-rose-100 py-3 rounded-xl font-bold transition-all text-sm flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Keluar Akun</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Panel Utama Informasi -->
+            <div class="lg:col-span-9 space-y-6">
+
+                <!-- SUB TAB 1: BERANDA & ANALISIS -->
+                <div id="parent-tab-beranda" class="space-y-6">
+                    <!-- Ringkasan Statistik -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-white rounded-3xl p-5 border-2 border-emerald-100 shadow-sm flex items-center space-x-4">
+                            <div class="p-3 bg-emerald-50 text-emerald-500 rounded-2xl text-2xl">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-slate-400 uppercase">Aktivitas Hari Ini</p>
+                                <p class="text-2xl font-black text-slate-800" id="parent-stat-completed">4 Game</p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-3xl p-5 border-2 border-sky-100 shadow-sm flex items-center space-x-4">
+                            <div class="p-3 bg-sky-50 text-sky-500 rounded-2xl text-2xl">
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-slate-400 uppercase">Rata-rata Nilai</p>
+                                <p class="text-2xl font-black text-slate-800" id="parent-stat-avg">92</p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-3xl p-5 border-2 border-yellow-100 shadow-sm flex items-center space-x-4">
+                            <div class="p-3 bg-yellow-50 text-yellow-500 rounded-2xl text-2xl">
+                                <i class="fa-solid fa-stopwatch"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-slate-400 uppercase">Total Waktu Bermain</p>
+                                <p class="text-2xl font-black text-slate-800" id="parent-stat-duration">25 Menit</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grafik Perkembangan Kognitif & Evaluasi Kategori -->
+                    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+                        <!-- Grafik SVG Dinamis -->
+                        <div class="bg-white rounded-3xl p-6 border-2 border-slate-200/60 shadow-sm xl:col-span-7">
+                            <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center">
+                                <i class="fa-solid fa-chart-line text-indigo-500 mr-2"></i> Grafik Perkembangan Logika &amp; Konsentrasi
+                            </h3>
+                            <p class="text-xs text-slate-400 mb-4 font-medium">Perbandingan skor aktivitas bermain anak sepanjang minggu ini.</p>
+                            
+                            <!-- Container Grafik SVG -->
+                            <div class="relative w-full aspect-[4/3] bg-slate-50 rounded-2xl border border-slate-100 p-4">
+                                <svg id="cognitive-svg-graph" viewBox="0 0 500 300" class="w-full h-full">
+                                    <!-- Grid lines horizontal -->
+                                    <line x1="50" y1="50" x2="450" y2="50" stroke="#E2E8F0" stroke-dasharray="4" />
+                                    <line x1="50" y1="110" x2="450" y2="110" stroke="#E2E8F0" stroke-dasharray="4" />
+                                    <line x1="50" y1="170" x2="450" y2="170" stroke="#E2E8F0" stroke-dasharray="4" />
+                                    <line x1="50" y1="230" x2="450" y2="230" stroke="#E2E8F0" stroke-dasharray="4" />
+                                    <line x1="50" y1="260" x2="450" y2="260" stroke="#94A3B8" stroke-width="2" />
+                                    
+                                    <!-- Sumbu Y labels -->
+                                    <text x="35" y="55" font-size="10" fill="#94A3B8" text-anchor="end">100</text>
+                                    <text x="35" y="115" font-size="10" fill="#94A3B8" text-anchor="end">80</text>
+                                    <text x="35" y="175" font-size="10" fill="#94A3B8" text-anchor="end">60</text>
+                                    <text x="35" y="235" font-size="10" fill="#94A3B8" text-anchor="end">40</text>
+                                    
+                                    <!-- Sumbu X labels -->
+                                    <text x="90" y="280" font-size="11" fill="#64748B" font-weight="bold" text-anchor="middle">Sen</text>
+                                    <text x="170" y="280" font-size="11" fill="#64748B" font-weight="bold" text-anchor="middle">Sel</text>
+                                    <text x="250" y="280" font-size="11" fill="#64748B" font-weight="bold" text-anchor="middle">Rab</text>
+                                    <text x="330" y="280" font-size="11" fill="#64748B" font-weight="bold" text-anchor="middle">Kam</text>
+                                    <text x="410" y="280" font-size="11" fill="#64748B" font-weight="bold" text-anchor="middle">Jum</text>
+
+                                    <!-- Garis Penghubung Tren Nilai -->
+                                    <polyline fill="none" stroke="#6366F1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+                                              points="90,200 170,140 250,80 330,110 410,50" />
+                                              
+                                    <!-- Titik-titik Data -->
+                                    <circle cx="90" cy="200" r="6" fill="#4F46E5" stroke="#FFFFFF" stroke-width="2" />
+                                    <circle cx="170" cy="140" r="6" fill="#4F46E5" stroke="#FFFFFF" stroke-width="2" />
+                                    <circle cx="250" cy="80" r="6" fill="#4F46E5" stroke="#FFFFFF" stroke-width="2" />
+                                    <circle cx="330" cy="110" r="6" fill="#4F46E5" stroke="#FFFFFF" stroke-width="2" />
+                                    <circle cx="410" cy="50" r="6" fill="#4F46E5" stroke="#FFFFFF" stroke-width="2" />
+
+                                    <!-- Nilai Tooltip simulasi -->
+                                    <text x="90" y="185" font-size="10" font-weight="bold" fill="#4F46E5" text-anchor="middle">70</text>
+                                    <text x="170" y="125" font-size="10" font-weight="bold" fill="#4F46E5" text-anchor="middle">80</text>
+                                    <text x="250" y="65" font-size="10" font-weight="bold" fill="#4F46E5" text-anchor="middle">90</text>
+                                    <text x="330" y="95" font-size="10" font-weight="bold" fill="#4F46E5" text-anchor="middle">85</text>
+                                    <text x="410" y="35" font-size="10" font-weight="bold" fill="#4F46E5" text-anchor="middle">100</text>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Indikator Kategori Aspek -->
+                        <div class="bg-white rounded-3xl p-6 border-2 border-slate-200/60 shadow-sm xl:col-span-5 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-800 mb-3 flex items-center">
+                                    <i class="fa-solid fa-star-half-stroke text-amber-500 mr-2"></i> Indikator Perkembangan
+                                </h3>
+                                <div class="space-y-4" id="parent-indicators-container">
+                                    <!-- Diisi oleh JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB TAB 2: RIWAYAT BERMAIN -->
+                <div id="parent-tab-riwayat" class="space-y-6 hidden">
+                    <div class="bg-white rounded-3xl p-6 border-2 border-slate-200/60 shadow-sm">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-bold text-slate-800">
+                                <i class="fa-solid fa-list-check text-indigo-500 mr-2"></i> Riwayat Aktivitas &amp; Skor Bermain
+                            </h3>
+                            <button onclick="clearHistory()" class="text-xs bg-rose-50 text-rose-600 px-3 py-1.5 rounded-lg font-bold hover:bg-rose-100 transition-all">
+                                Bersihkan Riwayat
+                            </button>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b-2 border-slate-100 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                                        <th class="py-3 px-4">Tanggal</th>
+                                        <th class="py-3 px-4">Nama Permainan</th>
+                                        <th class="py-3 px-4">Target Usia</th>
+                                        <th class="py-3 px-4">Skor Diperoleh</th>
+                                        <th class="py-3 px-4">Kategori Kognitif</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="parent-history-table-body" class="text-sm font-semibold text-slate-600 divide-y divide-slate-100">
+                                    <!-- Diisi dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB TAB 3: REKOMENDASI AHLI -->
+                <div id="parent-tab-rekomendasi" class="space-y-6 hidden">
+                    <div class="bg-white rounded-3xl p-6 border-2 border-slate-200/60 shadow-sm">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <i class="fa-solid fa-user-doctor text-indigo-500 mr-2"></i> Rekomendasi Ahli Tumbuh Kembang Anak
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center bg-sky-50 border border-sky-100 rounded-3xl p-5 mb-6">
+                            <div class="md:col-span-3 text-center">
+                                <span class="text-5xl">💡</span>
+                            </div>
+                            <div class="md:col-span-9 space-y-2">
+                                <h4 class="font-bold text-sky-800 text-lg">Bagaimana Rekomendasi Ini Bekerja?</h4>
+                                <p class="text-xs md:text-sm text-sky-700 leading-relaxed">
+                                    Sistem AI SmartGrow Kids memindai riwayat pengerjaan game anak secara konstan. Jika nilai dalam satu kategori kognitif di bawah rata-rata (e.g., Konsentrasi), kami akan menyarankan modul game spesifik dan aktivitas praktis di dunia nyata untuk merangsang aspek tersebut.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Daftar Rekomendasi Aktual -->
+                        <div class="space-y-4" id="parent-recommendations-list">
+                            <!-- Diisi dinamis -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB TAB 4: PENGATURAN -->
+                <div id="parent-tab-pengaturan" class="space-y-6 hidden">
+                    <div class="bg-white rounded-3xl p-6 border-2 border-slate-200/60 shadow-sm space-y-6">
+                        <h3 class="text-lg font-bold text-slate-800 border-b pb-3">
+                            <i class="fa-solid fa-gears text-indigo-500 mr-2"></i> Pengaturan Aplikasi
+                        </h3>
+                        
+                        <!-- Pilihan Reset Data -->
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-amber-50 rounded-2xl border border-amber-200">
+                            <div>
+                                <h4 class="font-bold text-amber-800">Simulasikan Data Perkembangan Baru</h4>
+                                <p class="text-xs text-amber-700">Gunakan fitur ini untuk mereset data dan memuat data simulasi anak baru berumur 5 tahun.</p>
+                            </div>
+                            <button onclick="simulateFreshData()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition-all shadow-sm">
+                                Muat Simulasi Baru
+                            </button>
+                        </div>
+
+                        <!-- Matikan Musik & Efek -->
+                        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                            <div>
+                                <h4 class="font-bold text-slate-800">Efek Suara (Synthesizer)</h4>
+                                <p class="text-xs text-slate-500">Gunakan audio sintetis Web Audio API ketika anak menjawab atau mengklik elemen.</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="toggle-audio-synthesis" checked class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER KREATIF -->
+    <footer class="bg-slate-800 text-slate-400 py-6 border-t-4 border-emerald-400 mt-8">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p class="font-kids font-bold text-slate-300 text-sm tracking-wide">
+                SmartGrow Kids © 2026 - Aplikasi Edukasi Kognitif Anak Hebat
+            </p>
+            <p class="text-xs text-slate-500">
+                Dirancang khusus menggunakan prinsip psikologi perkembangan anak usia dini (Piaget &amp; Vygotsky).
+            </p>
+        </div>
+    </footer>
+
+    <!-- MODAL POPUP REWARD (NOTIFIKASI MENANG) -->
+    <div id="reward-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-3xl border-4 border-yellow-300 shadow-2xl p-6 md:p-8 max-w-sm w-full text-center space-y-6 transform scale-95 transition-all duration-300">
+            <!-- Icon Bintang Mengambang -->
+            <div class="relative inline-block">
+                <span class="text-7xl block animate-bounce">🏆</span>
+                <span class="absolute -top-2 -right-2 text-3xl animate-ping">⭐</span>
+            </div>
+            
+            <div class="space-y-2">
+                <h3 class="text-2xl font-kids font-bold text-slate-800" id="reward-modal-title">Hebat Sekali!</h3>
+                <p class="text-slate-500 font-semibold text-sm" id="reward-modal-desc">Kamu berhasil menyelesaikan permainan dengan sempurna.</p>
+            </div>
+
+            <!-- Tampilan Penambahan Bintang / Badge -->
+            <div class="bg-yellow-50 border border-yellow-100 rounded-2xl py-3 px-4 inline-flex items-center justify-center space-x-2 w-full">
+                <span class="text-2xl">⭐</span>
+                <span class="text-lg font-black text-amber-600" id="reward-modal-star-text">+5 Bintang</span>
+            </div>
+
+            <!-- Badge Baru jika ada -->
+            <div id="reward-badge-container" class="hidden bg-indigo-50 border border-indigo-100 rounded-2xl p-3 flex flex-col items-center justify-center space-y-1">
+                <span class="text-xs text-indigo-500 font-bold uppercase tracking-widest">Kamu Dapat Badge Baru!</span>
+                <span class="text-4xl" id="reward-badge-icon">🏅</span>
+                <span class="font-bold text-indigo-800 text-sm" id="reward-badge-name">Ahli Puzzle</span>
+            </div>
+
+            <!-- Tombol Aksi -->
+            <button onclick="closeRewardModal()" class="w-full bg-gradient-to-r from-emerald-400 to-teal-500 text-white font-kids font-bold text-lg py-3 rounded-2xl hover:from-emerald-500 hover:to-teal-600 transition-all shadow-md">
+                Klaim &amp; Lanjutkan! 🎉
+            </button>
+        </div>
+    </div>
+
+    <!-- AUDIO ENGINE (Web Audio API Synthesizer) -->
+    <script>
+        // Mesin efek suara berbasis synthesizer
+        const sound = {
+            ctx: null,
+
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            },
+
+            // Cek apakah suara aktif di pengaturan
+            isEnabled() {
+                const check = document.getElementById('toggle-audio-synthesis');
+                return check ? check.checked : true;
+            },
+
+            // Bunyi klik biasa
+            click() {
+                if (!this.isEnabled()) return;
+                this.init();
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.1);
+                
+                gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+                
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.12);
+            },
+
+            // Bunyi jika jawaban benar
+            success() {
+                if (!this.isEnabled()) return;
+                this.init();
+                const now = this.ctx.currentTime;
+                
+                // Arpeggio ceria
+                const notes = [261.63, 329.63, 392.00, 523.25]; // C4, E4, G4, C5
+                notes.forEach((freq, index) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + index * 0.1);
+                    
+                    gain.gain.setValueAtTime(0.1, now + index * 0.1);
+                    gain.gain.linearRampToValueAtTime(0.01, now + index * 0.1 + 0.2);
+                    
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + index * 0.1);
+                    osc.stop(now + index * 0.1 + 0.25);
+                });
+            },
+
+            // Bunyi jika jawaban salah
+            fail() {
+                if (!this.isEnabled()) return;
+                this.init();
+                const now = this.ctx.currentTime;
+                
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.linearRampToValueAtTime(80, now + 0.3);
+                
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
+                
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            },
+
+            // Bunyi terompet kemenangan game selesai
+            victory() {
+                if (!this.isEnabled()) return;
+                this.init();
+                const now = this.ctx.currentTime;
+                const notes = [392.00, 392.00, 392.00, 523.25, 659.25]; // G4, G4, G4, C5, E5
+                const timing = [0, 0.15, 0.3, 0.45, 0.75];
+                
+                notes.forEach((freq, index) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now + timing[index]);
+                    
+                    gain.gain.setValueAtTime(0.15, now + timing[index]);
+                    gain.gain.linearRampToValueAtTime(0.01, now + timing[index] + (index === 4 ? 0.6 : 0.2));
+                    
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + timing[index]);
+                    osc.stop(now + timing[index] + (index === 4 ? 0.7 : 0.25));
+                });
+            }
+        };
+    </script>
+
+    <!-- MAIN SCRIPT (CORE LOGIC, GAME FLOW, DASHBOARD DATA) -->
+    <script>
+        // ==============================================
+        // GLOBAL STATE & DATA SIMULASI
+        // ==============================================
+        
+        // Simpan database lokal ke memory agar interaksi super cepat & bisa dicoba kapan pun
+        let appState = {
+            role: 'login', // login | child | parent
+            child: {
+                name: '',
+                age: 3,
+                avatar: '🐰',
+                stars: 0,
+                badges: []
+            },
+            history: [] // Berisi: { date, gameName, score, ageGroup, category }
+        };
+
+        // Kategori kognitif yang dipantau
+        const cognitiveCategories = {
+            'Warna': 'Visual Spasial',
+            'Bentuk': 'Logika Sederhana',
+            'Mengenal Hewan': 'Memori',
+            'Memory Card': 'Konsentrasi',
+            'Urutkan Ukuran': 'Berpikir Logis',
+            'Kelompokkan Benda': 'Klasifikasi',
+            'Puzzle Cerita': 'Sequencing',
+            'Tebak Pola': 'Penalaran',
+            'Berhitung Ceria': 'Numerasi',
+            'Labirin Pintar': 'Problem Solving',
+            'Pecahkan Misteri': 'Analisis Kritis',
+            'Matematika': 'Numerasi',
+            'Susun Kata': 'Linguistik',
+            'Coding Sederhana': 'Computational Thinking'
+        };
+
+        // Muat data simulasi default yang komprehensif pada awal aplikasi agar grafik & riwayat langsung terisi bagus
+        function loadDefaultSimulatedData() {
+            appState.child = {
+                name: "Dinda",
+                age: 5,
+                avatar: "🐰",
+                stars: 45,
+                badges: ["Master Warna", "Ahli Puzzle", "Juara Matematika"]
+            };
+            appState.history = [
+                { date: "2026-06-26", gameName: "Tebak Warna", score: 100, ageGroup: 3, category: "Visual Spasial" },
+                { date: "2026-06-27", gameName: "Mengenal Hewan", score: 80, ageGroup: 3, category: "Memori" },
+                { date: "2026-06-28", gameName: "Memory Card", score: 70, ageGroup: 4, category: "Konsentrasi" },
+                { date: "2026-06-29", gameName: "Urutkan Ukuran", score: 90, ageGroup: 4, category: "Berpikir Logis" },
+                { date: "2026-06-30", gameName: "Puzzle Cerita", score: 92, ageGroup: 5, category: "Sequencing" },
+                { date: "2026-06-30", gameName: "Berhitung Ceria", score: 100, ageGroup: 5, category: "Numerasi" },
+                { date: "2026-06-30", gameName: "Labirin Pintar", score: 80, ageGroup: 5, category: "Problem Solving" }
+            ];
+        }
+
+        // ==============================================
+        // SISTEM ALUR HALAMAN & LOGIN
+        // ==============================================
+        let selectedAgeVal = 3;
+        let selectedAvatarVal = '🐰';
+
+        window.onload = function() {
+            loadDefaultSimulatedData();
+            switchLoginTab('child');
+            selectAge(3);
+            selectAvatar('🐰');
+            updateHeaderStatus();
+        };
+
+        function switchLoginTab(tab) {
+            sound.click();
+            const childBtn = document.getElementById('tab-login-child');
+            const parentBtn = document.getElementById('tab-login-parent');
+            const childForm = document.getElementById('form-login-child');
+            const parentForm = document.getElementById('form-login-parent');
+
+            if (tab === 'child') {
+                childBtn.className = "flex-1 py-3 text-center rounded-xl font-bold font-kids text-lg transition-all bg-white text-sky-600 shadow-sm border border-sky-100";
+                parentBtn.className = "flex-1 py-3 text-center rounded-xl font-bold font-kids text-lg transition-all text-slate-500 hover:text-slate-800";
+                childForm.classList.remove('hidden');
+                parentForm.classList.add('hidden');
+            } else {
+                parentBtn.className = "flex-1 py-3 text-center rounded-xl font-bold font-kids text-lg transition-all bg-white text-indigo-600 shadow-sm border border-indigo-100";
+                childBtn.className = "flex-1 py-3 text-center rounded-xl font-bold font-kids text-lg transition-all text-slate-500 hover:text-slate-800";
+                parentForm.classList.remove('hidden');
+                childForm.classList.add('hidden');
+            }
+        }
+
+        function selectAge(age) {
+            sound.click();
+            selectedAgeVal = age;
+            document.querySelectorAll('.age-btn').forEach(btn => {
+                btn.classList.remove('border-sky-500', 'bg-sky-50', 'text-sky-600');
+                btn.classList.add('border-slate-200', 'bg-white');
+            });
+            const selectedBtn = document.getElementById(`btn-age-${age}`);
+            selectedBtn.classList.remove('border-slate-200', 'bg-white');
+            selectedBtn.classList.add('border-sky-500', 'bg-sky-50', 'text-sky-600');
+        }
+
+        function selectAvatar(avatar) {
+            sound.click();
+            selectedAvatarVal = avatar;
+            document.querySelectorAll('.avatar-btn').forEach(btn => {
+                btn.classList.remove('border-sky-500', 'bg-sky-50');
+                btn.classList.add('border-slate-200', 'bg-white');
+            });
+            const selectedBtn = document.getElementById(`avatar-${avatar}`);
+            selectedBtn.classList.remove('border-slate-200', 'bg-white');
+            selectedBtn.classList.add('border-sky-500', 'bg-sky-50');
+        }
+
+        function handleChildLogin() {
+            const nameInput = document.getElementById('child-name-input').value.trim();
+            if (!nameInput) {
+                alertModal("Hai Sayang! Tolong masukkan namamu dulu ya agar kita bisa berteman.");
+                return;
+            }
+            sound.victory();
+            
+            // Setup profile anak baru
+            appState.child.name = nameInput;
+            appState.child.age = selectedAgeVal;
+            appState.child.avatar = selectedAvatarVal;
+            appState.child.stars = 0;
+            appState.child.badges = [];
+            
+            // Bersihkan data riwayat untuk anak baru
+            appState.history = [];
+
+            appState.role = 'child';
+            showPage('page-child-dashboard');
+            renderChildDashboard();
+            updateHeaderStatus();
+        }
+
+        function handleParentLogin() {
+            sound.click();
+            const email = document.getElementById('parent-email-input').value;
+            if (!email.includes('@')) {
+                alertModal("Ups! Format email Ayah/Bunda salah.");
+                return;
+            }
+            appState.role = 'parent';
+            showPage('page-parent-dashboard');
+            renderParentDashboard();
+            updateHeaderStatus();
+        }
+
+        function showPage(pageId) {
+            const pages = ['page-login', 'page-child-dashboard', 'page-game-arena', 'page-parent-dashboard'];
+            pages.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        function goToHome() {
+            sound.click();
+            if (appState.role === 'child') {
+                showPage('page-child-dashboard');
+                renderChildDashboard();
+            } else if (appState.role === 'parent') {
+                showPage('page-parent-dashboard');
+                renderParentDashboard();
+            } else {
+                showPage('page-login');
+            }
+        }
+
+        function logout() {
+            sound.click();
+            appState.role = 'login';
+            showPage('page-login');
+            updateHeaderStatus();
+        }
+
+        function updateHeaderStatus() {
+            const container = document.getElementById('header-user-status');
+            if (appState.role === 'login') {
+                container.innerHTML = `
+                    <span class="text-xs font-bold text-emerald-500 flex items-center bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-full">
+                        ⚡ Online
+                    </span>
+                `;
+            } else if (appState.role === 'child') {
+                container.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <div class="flex items-center space-x-1.5 bg-yellow-100 text-yellow-600 font-extrabold px-3 py-1.5 rounded-full text-sm">
+                            <span>⭐</span> <span id="header-stars-count">${appState.child.stars}</span>
+                        </div>
+                        <button onclick="logout()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-500 font-bold px-3 py-1.5 rounded-xl transition-all">
+                            Keluar
+                        </button>
+                    </div>
+                `;
+            } else if (appState.role === 'parent') {
+                container.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-xl text-xs font-bold">
+                            <i class="fa-solid fa-user-shield"></i> Mode Orang Tua
+                        </span>
+                        <button onclick="logout()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-500 font-bold px-3 py-1.5 rounded-xl transition-all">
+                            Keluar
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Custom Modal Alert ramah anak (tidak menggunakan browser alert)
+        function alertModal(msg) {
+            alert(msg); // Gunakan fallback dasar agar stabil, namun didesain aman.
+        }
+
+        // ==============================================
+        // CORE RENDER: DASHBOARD ANAK & PILIHAN GAME
+        // ==============================================
+        const gamesDatabase = {
+            3: [
+                { id: 'tebak-warna', title: '🔴 Tebak Warna', icon: '🎨', desc: 'Mengenal berbagai warna ceria di sekitarmu.', bg: 'bg-rose-50 border-rose-200 hover:bg-rose-100' },
+                { id: 'cocok-bentuk', title: '🧩 Cocokkan Bentuk', icon: '📐', desc: 'Belajar logika menyusun bentuk lingkaran & segitiga.', bg: 'bg-blue-50 border-blue-200 hover:bg-blue-100' },
+                { id: 'mengenal-hewan', title: '🐮 Mengenal Suara Hewan', icon: '🐶', desc: 'Tebak suara aneka hewan lucu yang menggemaskan.', bg: 'bg-emerald-50 border-emerald-200 hover:bg-emerald-100' }
+            ],
+            4: [
+                { id: 'memory-card', title: '🍎 Memory Card', icon: '🍒', desc: 'Latih memori ingatanmu mencari pasangan kartu buah.', bg: 'bg-purple-50 border-purple-200 hover:bg-purple-100' },
+                { id: 'urutkan-ukuran', title: '📏 Urutkan Ukuran', icon: '📐', desc: 'Kelompokkan benda-benda dari kecil ke yang paling besar.', bg: 'bg-amber-50 border-amber-200 hover:bg-amber-100' },
+                { id: 'kelompokkan-benda', title: '🧺 Kelompokkan Kategori', icon: '🍇', desc: 'Masukkan sayur, buah & hewan ke tempat yang pas.', bg: 'bg-teal-50 border-teal-200 hover:bg-teal-100' }
+            ],
+            5: [
+                { id: 'puzzle-cerita', title: '📖 Urutan Cerita', icon: '⏰', desc: 'Susun rutinitas harianmu agar teratur sepanjang hari.', bg: 'bg-indigo-50 border-indigo-200 hover:bg-indigo-100' },
+                { id: 'tebak-pola', title: '⭐ Tebak Pola', icon: '⬜', desc: 'Menalar pola gambar misterius berikutnya.', bg: 'bg-pink-50 border-pink-200 hover:bg-pink-100' },
+                { id: 'berhitung-ceria', title: '🎈 Berhitung Ceria', icon: '🔢', desc: 'Ayo hitung balon-balon indah yang terbang tinggi.', bg: 'bg-sky-50 border-sky-200 hover:bg-sky-100' },
+                { id: 'labirin-pintar', title: '🚗 Labirin Pintar', icon: '🏠', desc: 'Bantu mobil lucu mencari jalan pulang ke rumah.', bg: 'bg-lime-50 border-lime-200 hover:bg-lime-100' }
+            ],
+            6: [
+                { id: 'pecahkan-misteri', title: '🔍 Detektif Misteri', icon: '💡', desc: 'Menganalisis benda mana yang bisa mengapung di air.', bg: 'bg-orange-50 border-orange-200 hover:bg-orange-100' },
+                { id: 'matematika-petualangan', title: '⚔️ Matematika Ksatria', icon: '➕', desc: 'Selesaikan tantangan tambah & kurang dengan cepat.', bg: 'bg-cyan-50 border-cyan-200 hover:bg-cyan-100' },
+                { id: 'susun-kata', title: '🔤 Petualangan Huruf', icon: '🐱', desc: 'Susun kumpulan huruf acak menjadi nama hewan.', bg: 'bg-violet-50 border-violet-200 hover:bg-violet-100' },
+                { id: 'coding-sederhana', title: '🤖 Coding Robot', icon: '🚀', desc: 'Tulis arah pemrograman dasar untuk menuntun robot.', bg: 'bg-yellow-50 border-yellow-200 hover:bg-yellow-100' }
+            ]
+        };
+
+        function renderChildDashboard() {
+            // Update Teks Profil
+            document.getElementById('dash-avatar').innerText = appState.child.avatar;
+            document.getElementById('dash-welcome').innerText = `Halo, ${appState.child.name}!`;
+            document.getElementById('dash-age').innerText = `Usia: ${appState.child.age} Tahun`;
+            document.getElementById('dash-stars').innerText = appState.child.stars;
+            document.getElementById('dash-badges-count').innerText = appState.child.badges.length;
+
+            // Render Rak Penghargaan Badge
+            const shelf = document.getElementById('badge-shelf');
+            if (appState.child.badges.length === 0) {
+                shelf.innerHTML = `
+                    <p class="text-xs text-slate-400 font-semibold italic py-2">
+                        Belum ada lencana terkumpul. Selesaikan game untuk mendapatkan medali pertamamu! 🚀
+                    </p>
+                `;
+            } else {
+                shelf.innerHTML = appState.child.badges.map(b => `
+                    <span class="inline-flex items-center space-x-1.5 bg-yellow-50 border-2 border-yellow-300 text-yellow-800 font-bold px-3 py-1.5 rounded-full text-xs shadow-sm">
+                        <span>🏅</span>
+                        <span>${b}</span>
+                    </span>
+                `).join('');
+            }
+
+            // Render Game yang Sesuai dengan Usia Anak saat ini
+            const grid = document.getElementById('games-grid');
+            const targetAge = appState.child.age;
+            const availableGames = gamesDatabase[targetAge] || [];
+
+            grid.innerHTML = availableGames.map(game => `
+                <div onclick="launchGame('${game.id}')" class="group border-4 rounded-3xl p-5 ${game.bg} transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-md cursor-pointer flex flex-col justify-between min-h-[180px]">
+                    <div class="space-y-2">
+                        <span class="text-4xl block group-hover:scale-110 transition-transform duration-300">${game.icon}</span>
+                        <h4 class="font-kids font-bold text-lg text-slate-800">${game.title}</h4>
+                        <p class="text-xs text-slate-500 font-semibold leading-relaxed">${game.desc}</p>
+                    </div>
+                    <div class="mt-4 flex items-center text-xs font-bold text-sky-600">
+                        <span>Ayo Mainkan</span>
+                        <i class="fa-solid fa-arrow-right ml-1 transition-transform group-hover:translate-x-1"></i>
+                    </div>
+                </div>
+            `).join('');
+
+            // Misi Hari ini
+            document.getElementById('game-today-badge').innerText = `Misi Hari Ini: ${availableGames.length} Game`;
+        }
+
+        // ==============================================
+        // MESIN GAMEPLAY ARENA (MULTIPLATFORM & USIA)
+        // ==============================================
+        let currentGameId = '';
+        let currentGameState = {};
+
+        function launchGame(gameId) {
+            sound.click();
+            currentGameId = gameId;
+            currentGameState = {
+                score: 0,
+                step: 1,
+                totalSteps: 3,
+                earnedStars: 0
+            };
+
+            const titleElement = document.getElementById('game-arena-title');
+            const tagElement = document.getElementById('game-arena-tag');
+            const scoreElement = document.getElementById('game-arena-score');
+
+            scoreElement.innerText = currentGameState.score;
+            tagElement.innerText = `Usia ${appState.child.age} Tahun - ${getCategoryName(gameId)}`;
+            
+            showPage('page-game-arena');
+            initiateGamePlay(gameId);
+        }
+
+        function quitGame() {
+            sound.click();
+            showPage('page-child-dashboard');
+            renderChildDashboard();
+        }
+
+        function getCategoryName(gameId) {
+            // Mapping nama game ke kategori perkembangan kognitif
+            if (gameId === 'tebak-warna') return 'Visual Spasial';
+            if (gameId === 'cocok-bentuk') return 'Logika Sederhana';
+            if (gameId === 'mengenal-hewan') return 'Memori';
+            if (gameId === 'memory-card') return 'Konsentrasi';
+            if (gameId === 'urutkan-ukuran') return 'Berpikir Logis';
+            if (gameId === 'kelompokkan-benda') return 'Klasifikasi';
+            if (gameId === 'puzzle-cerita') return 'Sequencing';
+            if (gameId === 'tebak-pola') return 'Penalaran';
+            if (gameId === 'berhitung-ceria') return 'Numerasi';
+            if (gameId === 'labirin-pintar') return 'Problem Solving';
+            if (gameId === 'pecahkan-misteri') return 'Analisis Kritis';
+            if (gameId === 'matematika-petualangan') return 'Numerasi';
+            if (gameId === 'susun-kata') return 'Linguistik';
+            if (gameId === 'coding-sederhana') return 'Computational Thinking';
+            return 'Kognitif';
+        }
+
+        // TTS Sederhana / Petunjuk Pengucapan Teks
+        function speakInstruction() {
+            const instr = document.getElementById('game-instruction-text').innerText;
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(instr);
+                utterance.lang = 'id-ID';
+                utterance.rate = 1.0;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alertModal("Fitur suara tidak didukung oleh browsermu.");
+            }
+        }
+
+        function initiateGamePlay(gameId) {
+            const playground = document.getElementById('game-playground');
+            const instrText = document.getElementById('game-instruction-text');
+            playground.innerHTML = ''; // bersihkan
+
+            // PILIH GAME UNTUK DIKONTROL
+            if (gameId === 'tebak-warna') {
+                const colors = [
+                    { name: 'Merah', color: 'bg-red-500', hex: '#EF4444' },
+                    { name: 'Kuning', color: 'bg-yellow-400', hex: '#FACC15' },
+                    { name: 'Biru', color: 'bg-blue-500', hex: '#3B82F6' },
+                    { name: 'Hijau', color: 'bg-green-500', hex: '#10B981' }
+                ];
+                const target = colors[Math.floor(Math.random() * colors.length)];
+                instrText.innerText = `Pilihlah lingkaran yang berwarna ${target.name}!`;
+                
+                playground.className = "flex flex-col items-center justify-center space-y-6 w-full";
+                playground.innerHTML = `
+                    <p class="text-xl font-bold font-kids">"Mana warna <span class="text-sky-500">${target.name}</span>?"</p>
+                    <div class="grid grid-cols-2 gap-6">
+                        ${colors.map(c => `
+                            <button onclick="checkTebakWarna('${c.name}', '${target.name}')" class="w-24 h-24 rounded-full ${c.color} transform hover:scale-110 active:scale-95 transition-all shadow-md"></button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            else if (gameId === 'cocok-bentuk') {
+                instrText.innerText = "Mari temukan bentuk yang cocok! Bentuk apa ini?";
+                const shapes = [
+                    { name: 'Segitiga', icon: '▲', color: 'text-amber-500' },
+                    { name: 'Lingkaran', icon: '●', color: 'text-red-500' },
+                    { name: 'Persegi', icon: '■', color: 'text-sky-500' }
+                ];
+                const target = shapes[Math.floor(Math.random() * shapes.length)];
+                
+                playground.className = "flex flex-col items-center justify-center space-y-6 w-full";
+                playground.innerHTML = `
+                    <div class="text-8xl ${target.color} select-none animate-bounce">${target.icon}</div>
+                    <p class="text-lg font-bold font-kids">Manakah nama bentuk di atas?</p>
+                    <div class="grid grid-cols-3 gap-4 w-full max-w-md">
+                        ${shapes.map(s => `
+                            <button onclick="checkCocokBentuk('${s.name}', '${target.name}')" class="bg-slate-50 border-2 border-slate-200 hover:border-sky-400 p-4 rounded-2xl font-bold text-sm transition-all">${s.name}</button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            else if (gameId === 'mengenal-hewan') {
+                instrText.innerText = "Dengarkan baik-baik suaranya, lalu tebak siapa aku!";
+                const animals = [
+                    { name: 'Sapi', sound: 'Mooooo...', emoji: '🐮' },
+                    { name: 'Kucing', sound: 'Meooowww...', emoji: '🐱' },
+                    { name: 'Anjing', sound: 'Guk guk!', emoji: '🐶' },
+                    { name: 'Singa', sound: 'Rooaaarrr!', emoji: '🦁' }
+                ];
+                const target = animals[Math.floor(Math.random() * animals.length)];
+                
+                playground.className = "flex flex-col items-center justify-center space-y-6 w-full";
+                playground.innerHTML = `
+                    <div class="bg-indigo-50 border border-indigo-200 px-8 py-5 rounded-3xl text-center shadow-inner">
+                        <span class="text-2xl font-extrabold text-indigo-700 tracking-widest block font-kids">"${target.sound}"</span>
+                    </div>
+                    <p class="text-base font-bold text-slate-500">Hewan manakah yang mengeluarkan suara tersebut?</p>
+                    <div class="grid grid-cols-4 gap-4">
+                        ${animals.map(a => `
+                            <button onclick="checkHewan('${a.name}', '${target.name}')" class="text-4xl p-5 bg-white border-2 border-slate-200 rounded-3xl hover:border-sky-400 hover:scale-105 active:scale-95 transition-all">${a.emoji}</button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            else if (gameId === 'memory-card') {
+                instrText.innerText = "Temukan 3 pasangan kartu buah yang sama!";
+                const items = ['🍎', '🍌', '🍇', '🍎', '🍌', '🍇'];
+                // Shuffle items
+                items.sort(() => Math.random() - 0.5);
+
+                playground.className = "flex flex-col items-center justify-center space-y-4 w-full";
+                playground.innerHTML = `
+                    <div class="grid grid-cols-3 gap-4 w-full max-w-sm" id="memory-grid">
+                        ${items.map((item, idx) => `
+                            <button onclick="flipMemoryCard(this, '${item}', ${idx})" class="aspect-square bg-sky-400 text-white rounded-2xl text-4xl font-bold flex items-center justify-center shadow-md transition-all active:scale-95 hover:bg-sky-500">❓</button>
+                        `).join('')}
+                    </div>
+                `;
+                currentGameState.matchedCount = 0;
+                currentGameState.firstCard = null;
+                currentGameState.isLock = false;
+            }
+
+            else if (gameId === 'urutkan-ukuran') {
+                instrText.innerText = "Urutkan bintang dari yang TERKECIL ke yang TERBESAR!";
+                const sizes = [
+                    { id: 1, text: 'Kecil', scale: 'scale-75' },
+                    { id: 2, text: 'Sedang', scale: 'scale-100' },
+                    { id: 3, text: 'Besar', scale: 'scale-125' }
+                ];
+                // Shuffle agar acak posisinya
+                const shuffedSizes = [...sizes].sort(() => Math.random() - 0.5);
+                currentGameState.targetOrder = [1, 2, 3];
+                currentGameState.currentClickOrder = [];
+
+                playground.className = "flex flex-col items-center justify-center space-y-6 w-full";
+                playground.innerHTML = `
+                    <div class="flex items-center justify-around w-full max-w-md h-32">
+                        ${shuffedSizes.map(s => `
+                            <button onclick="clickStarSize(this, ${s.id})" class="transform ${s.scale} text-6xl text-yellow-400 hover:scale-110 active:scale-95 transition-all">⭐</button>
+                        `).join('')}
+                    </div>
+                    <div class="bg-slate-50 border px-4 py-2 rounded-xl text-xs font-bold text-slate-500">
+                        Klik satu per satu secara berurutan!
+                    </div>
+                `;
+            }
+
+            else if (gameId === 'kelompokkan-benda') {
+                instrText.innerText = "Masukkan buah ini ke kategori yang tepat!";
+                const categories = [
+                    { name: 'Buah', items: ['🍎', '🍌', '🍇', '🍒'] },
+                    { name: 'Hewan', items: ['🦁', '🐱', '🐼', '🦊'] }
+                ];
+                const targetCat = categories[Math.floor(Math.random() * categories.length)];
+                const targetItem = targetCat.items[Math.floor(Math.random() * targetCat.items.length)];
+
+                playground.className = "flex flex-col items-center justify-center space-y-6 w-full";
+                playground.innerHTML = `
+                    <div class="text-7xl animate-bounce">${targetItem}</div>
+                    <p class="text-base font-bold">Apakah benda di atas termasuk Buah atau Hewan?</p>
+                    <div class="grid grid-cols-2 gap-4 w-full max-w-xs">
+                        <button onclick="checkKelompokkan('${targetItem}', 'Buah')" class="py-4 bg-sky-50 hover:bg-sky-100 border-2 border-sky-200 rounded-2xl font-bold font-kids text-lg">🍎 Buah</button>
+                        <button onclick="checkKelompokkan('${targetItem}', 'Hewan')" class="py-4 bg-amber-50 hover:bg-amber-100 border-2 border-amber-200 rounded-2xl font-bold font-kids text-lg">🐯 Hewan</button>
+                    </div>
+                `;
+            }
+
+            else if (gameId === 'puzzle-cerita') {
+                instrText.innerText = "Urutkan cerita ini: Klik 1 untuk Bangun Tidur, klik 2 untuk Sarapan, klik 3 untuk Sekolah!";
+                const sequence = [
+                    { id: 1, text: '⏰ Bangun Tidur', desc: 'Langkah ke-1' },
+                    { id: 2, text: '🍳 Sarapan Pagi', desc: 'Langkah ke-2' },
+                    { id: 3, text: '🎒 Pergi Sekolah', desc: 'Langkah ke-3' }
+                ];
+                const shuffled = [...sequence].sort(() => Math.random() - 0.5);
+                currentGameState.correctOrder = [1, 2, 3];
+                currentGameState.userOrder = [];
+
+                playground.className = "flex flex-col items-center justify-center space-y-6 w-full";
+                playground.innerHTML = `
+                    <div class="flex flex-col space-y-3 w-full max-w-sm">
+                        ${shuffled.map(s => `
+                            <button id="puz-${s.id}" onclick="clickPuzzleOrder(this, ${s.id})" class="p-4 bg-white border-2 border-slate-200 rounded-2xl font-bold text-left hover:border-indigo-400 transition-all flex justify-between items-center">
+                                <span>${s.text}</span>
+                                <span class="text-xs text-slate-400" id="badge-puz-${s.id}">Klik di sini</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            else if (gameId === 'tebak-pola') {
+                instrText.innerText = "Tebak bentuk apa yang bisa melengkapi pola di bawah!";
+                // Pola: ⭐ ⬜ ⭐ ⬜ [ ? ] -> Jawabannya ⭐
+                playground.className = "flex flex-col items-center justify-center space-y-6 w-full";
+                playground.innerHTML = `
+                    <div class="flex items-center space-x-3 text-4xl bg-slate-100 p-4 rounded-3xl border select-none">
+                        <span>⭐</span>
+                        <span>⬜</span>
+                        <span>⭐</span>
+                        <span>⬜</span>
+                        <span class="border-2 border-dashed border-sky-400 px-3 py-1 bg-white rounded-lg animate-pulse text-2xl font-bold">?</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 w-full max-w-xs">
+                        <button onclick="checkPola('⭐')" class="py-4 bg-white border-2 border-slate-200 hover:border-sky-400 rounded-2xl text-2xl">⭐</button>
+                        <button onclick="checkPola('⬜')" class="py-4 bg-white border-2 border-slate-200 hover:border-sky-400 rounded-2xl text-2xl">⬜</button>
+                    </div>
+                `;
+            }
+
+            else if (gameId === 'berhitung-ceria') {
+                instrText.innerText = "Bantu hitung jumlah balon cantik yang terbang di bawah!";
+                const balloonCount = Math.floor(Math.random() * 4) + 2; // range 2 - 5
+                const options = [balloonCount, balloonCount + 1, balloonCount - 1].sort(() => Math.random() - 0.5);
+
+                playground.className = "flex flex-col items-center justify-center space-y-6 w-full";
+                playground.innerHTML = `
+                    <div class="flex items-center justify-center space-x-4 text-5xl">
+                        ${Array(balloonCount).fill('🎈').map(b => `<span class="animate-bounce" style="animation-delay: ${Math.random()*2}s">${b}</span>`).join('')}
+                    </div>
+                    <p class="text-lg font-bold">Ada berapa jumlah balon di atas?</p>
+                    <div class="flex justify-center space-x-4 w-full max-w-xs">
+                        ${options.filter(o => o > 0).map(o => `
+                            <button onclick="checkBerhitung(${o}, ${balloonCount})" class="w-16 h-16 bg-white border-2 border-slate-200 hover:border-sky-400 rounded-2xl font-black text-xl flex items-center justify-center">${o}</button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            else if (gameId === 'labirin-pintar') {
+                instrText.innerText = "Bantu mobil (🚗) menuju ke rumah (🏠) menggunakan tombol arah di bawah!";
+                
+                // Representasi labirin 4x4 sederhana
+                // S: Start, E: End, O: Open, W: Wall
+                const mazeGrid = [
+                    ['S', 'O', 'W', 'W'],
+                    ['W', 'O', 'O', 'W'],
+                    ['W', 'W', 'O', 'O'],
+                    ['W', 'W', 'W', 'E']
+                ];
+                currentGameState.playerPos = { x: 0, y: 0 };
+                currentGameState.maze = mazeGrid;
+
+                playground.className = "flex flex-col items-center justify-center space-y-4 w-full";
+                renderMaze();
+            }
+
+            else if (gameId === 'pecahkan-misteri') {
+                instrText.innerText = "Analisislah benda mana saja yang tidak tenggelam jika ditaruh di air!";
+                playground.className = "flex flex-col items-center justify-center space-y-6 w-full";
+                playground.innerHTML = `
+                    <div class="bg-blue-100 border border-blue-200 p-4 rounded-2xl text-center font-bold text-blue-800 text-sm">
+                        🌊 "Manakah benda yang bisa MENGAPUNG di air?"
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 w-full">
+                        <button onclick="checkMisteri('Daun', true)" class="p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl hover:border-emerald-400 flex flex-col items-center space-y-2">
+                            <span class="text-4xl">🍃</span>
+                            <span class="font-bold text-sm">Daun Kering</span>
+                        </button>
+                        <button onclick="checkMisteri('Batu', false)" class="p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl hover:border-emerald-400 flex flex-col items-center space-y-2">
+                            <span class="text-4xl">🪨</span>
+                            <span class="font-bold text-sm">Batu Kerikil</span>
+                        </button>
+                        <button onclick="checkMisteri('Gunting', false)" class="p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl hover:border-emerald-400 flex flex-col items-center space-y-2">
+                            <span class="text-4xl">✂️</span>
+                            <span class="font-bold text-sm">Gunting Besi</span>
+                        </button>
+                    </div>
+                `;
+            }
+
+            else if (gameId === 'matematika-petualangan') {
+                const num1 = Math.floor(Math.random() * 5) + 3; // 3-7
+                const num2 = Math.floor(Math.random() * 3) + 1; // 1-3
+                const isPlus = Math.random() > 0.5;
+                const answer = isPlus ? num1 + num2 : num1 - num2;
+                const sign = isPlus ? '+' : '-';
+
+                instrText.innerText = "Buktikan ketangkasan berhitung matematikamu!";
+                const options = [answer, answer + 1, answer - 1].sort(() => Math.random() - 0.5);
+
+                playground.className = "flex flex-col items-center justify-center space-y-6 w-full";
+                playground.innerHTML = `
+                    <div class="bg-indigo-50 border border-indigo-200 text-slate-800 text-5xl font-black px-10 py-6 rounded-3xl tracking-wider">
+                        ${num1} ${sign} ${num2} = ?
+                    </div>
+                    <div class="flex justify-center space-x-4 w-full max-w-xs">
+                        ${options.filter(o => o >= 0).map(o => `
+                            <button onclick="checkMatematika(${o}, ${answer})" class="w-16 h-16 bg-white border-2 border-slate-200 hover:border-sky-400 rounded-2xl font-black text-xl flex items-center justify-center">${o}</button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            else if (gameId === 'susun-kata') {
+                instrText.innerText = "Susunlah huruf-huruf acak di bawah agar berbunyi K-U-C-I-N-G!";
+                const word = "KUCING";
+                currentGameState.correctWord = word;
+                currentGameState.userWord = "";
+
+                playground.className = "flex flex-col items-center justify-center space-y-6 w-full";
+                playground.innerHTML = `
+                    <div class="text-6xl animate-bounce">🐱</div>
+                    <div class="border-2 border-dashed border-indigo-200 bg-indigo-50 min-h-[50px] px-6 py-2 rounded-2xl font-black text-2xl tracking-widest text-indigo-800" id="word-target-box">
+                        _ _ _ _ _ _
+                    </div>
+                    <div class="flex justify-center space-x-2" id="letter-options-box">
+                        <button onclick="clickLetter(this, 'K')" class="w-12 h-12 bg-white border-2 border-slate-200 hover:border-sky-400 rounded-xl font-bold text-lg">K</button>
+                        <button onclick="clickLetter(this, 'U')" class="w-12 h-12 bg-white border-2 border-slate-200 hover:border-sky-400 rounded-xl font-bold text-lg">U</button>
+                        <button onclick="clickLetter(this, 'C')" class="w-12 h-12 bg-white border-2 border-slate-200 hover:border-sky-400 rounded-xl font-bold text-lg">C</button>
+                        <button onclick="clickLetter(this, 'I')" class="w-12 h-12 bg-white border-2 border-slate-200 hover:border-sky-400 rounded-xl font-bold text-lg">I</button>
+                        <button onclick="clickLetter(this, 'N')" class="w-12 h-12 bg-white border-2 border-slate-200 hover:border-sky-400 rounded-xl font-bold text-lg">N</button>
+                        <button onclick="clickLetter(this, 'G')" class="w-12 h-12 bg-white border-2 border-slate-200 hover:border-sky-400 rounded-xl font-bold text-lg">G</button>
+                    </div>
+                `;
+            }
+
+            else if (gameId === 'coding-sederhana') {
+                instrText.innerText = "Kumpulkan instruksi arah panah (➡️ atau ⬇️) lalu tekan tombol JALANKAN untuk mengarahkan Robot 🤖 ke roket 🚀!";
+                
+                // Posisi: Robot (0,0) -> Tujuan: Roket (3,3)
+                currentGameState.commands = [];
+                
+                playground.className = "flex flex-col items-center justify-center space-y-5 w-full";
+                playground.innerHTML = `
+                    <!-- Grid Visual 4x4 -->
+                    <div class="grid grid-cols-4 gap-2 bg-slate-100 p-3 rounded-2xl border">
+                        ${Array(16).fill(null).map((_, i) => {
+                            let cellText = '⬜';
+                            if (i === 0) cellText = '🤖';
+                            if (i === 15) cellText = '🚀';
+                            return `<div id="code-cell-${i}" class="w-12 h-12 bg-white border flex items-center justify-center text-xl rounded-lg shadow-sm">${cellText}</div>`;
+                        }).join('')}
+                    </div>
+
+                    <!-- Panel Penulisan Command -->
+                    <div class="space-y-2 text-center w-full max-w-sm">
+                        <p class="text-xs font-bold text-slate-500 uppercase">Perintah Program Berjalan:</p>
+                        <div id="coding-commands-queue" class="bg-indigo-50 border-2 border-dashed border-indigo-200 p-3 rounded-xl min-h-[50px] flex items-center justify-center gap-2 text-lg">
+                            <span class="text-xs text-indigo-400">Belum ada instruksi</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="addCodingCommand('➡️')" class="bg-white hover:bg-slate-50 border p-2 rounded-xl text-lg font-bold">➡️ Kanan</button>
+                            <button onclick="addCodingCommand('⬇️')" class="bg-white hover:bg-slate-50 border p-2 rounded-xl text-lg font-bold">⬇️ Bawah</button>
+                            <button onclick="clearCodingCommands()" class="bg-rose-50 text-rose-600 border p-2 rounded-xl text-xs font-bold">Ulangi</button>
+                        </div>
+                        <button onclick="executeCodingSequence()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl shadow-md transition-all">
+                            JALANKAN PROGRAM! 🚀
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // ==============================================
+        // VALIDASI JAWABAN GAMEPLAY
+        // ==============================================
+        
+        // General handler saat berhasil menyelesaikan level
+        function onGameCompleteSuccess() {
+            sound.victory();
+            currentGameState.score = 100; // Sempurna
+            appState.child.stars += 5;
+
+            // Catat ke riwayat
+            const formattedDate = new Date().toISOString().split('T')[0];
+            appState.history.push({
+                date: formattedDate,
+                gameName: gamesDatabase[appState.child.age].find(g => g.id === currentGameId)?.title || currentGameId,
+                score: 100,
+                ageGroup: appState.child.age,
+                category: getCategoryName(currentGameId)
+            });
+
+            // Tentukan lencana badge secara acak jika belum punya lencana tersebut
+            let earnedBadge = null;
+            if (appState.child.age === 3 && !appState.child.badges.includes("Master Warna")) {
+                earnedBadge = "Master Warna";
+            } else if (appState.child.age === 4 && !appState.child.badges.includes("Ahli Puzzle")) {
+                earnedBadge = "Ahli Puzzle";
+            } else if (appState.child.age === 5 && !appState.child.badges.includes("Pemecah Masalah")) {
+                earnedBadge = "Pemecah Masalah";
+            } else if (appState.child.age === 6 && !appState.child.badges.includes("Juara Matematika")) {
+                earnedBadge = "Juara Matematika";
+            }
+
+            if (earnedBadge) {
+                appState.child.badges.push(earnedBadge);
+            }
+
+            // Tampilkan Reward Modal
+            showRewardModal(earnedBadge);
+            updateHeaderStatus();
+        }
+
+        function showRewardModal(badge) {
+            const modal = document.getElementById('reward-modal');
+            const title = document.getElementById('reward-modal-title');
+            const desc = document.getElementById('reward-modal-desc');
+            const badgeBox = document.getElementById('reward-badge-container');
+            const badgeIcon = document.getElementById('reward-badge-icon');
+            const badgeName = document.getElementById('reward-badge-name');
+
+            title.innerText = "Hebat Sekali! 🎉";
+            desc.innerText = `Kamu telah berhasil menyelesaikan permainan ${gamesDatabase[appState.child.age].find(g => g.id === currentGameId)?.title}!`;
+            
+            if (badge) {
+                badgeBox.classList.remove('hidden');
+                badgeName.innerText = badge;
+                if (badge === "Master Warna") badgeIcon.innerText = "🎨";
+                if (badge === "Ahli Puzzle") badgeIcon.innerText = "🧩";
+                if (badge === "Pemecah Masalah") badgeIcon.innerText = "💡";
+                if (badge === "Juara Matematika") badgeIcon.innerText = "⚔️";
+            } else {
+                badgeBox.classList.add('hidden');
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeRewardModal() {
+            document.getElementById('reward-modal').classList.add('hidden');
+            showPage('page-child-dashboard');
+            renderChildDashboard();
+        }
+
+        // Logic check Tebak Warna
+        function checkTebakWarna(chosen, target) {
+            if (chosen === target) {
+                sound.success();
+                onGameCompleteSuccess();
+            } else {
+                sound.fail();
+                alertModal("Coba cari lingkaran warna lainnya ya, kamu pasti bisa!");
+            }
+        }
+
+        // Logic check Cocokkan Bentuk
+        function checkCocokBentuk(chosen, target) {
+            if (chosen === target) {
+                sound.success();
+                onGameCompleteSuccess();
+            } else {
+                sound.fail();
+                alertModal("Ups! Bentuknya kurang cocok, silakan teliti lagi.");
+            }
+        }
+
+        // Logic check Hewan
+        function checkHewan(chosen, target) {
+            if (chosen === target) {
+                sound.success();
+                onGameCompleteSuccess();
+            } else {
+                sound.fail();
+                alertModal("Suara hewan ini terdengar sedikit berbeda, dengarkan lagi ya!");
+            }
+        }
+
+        // Logic Memory Card Game
+        function flipMemoryCard(btn, fruit, idx) {
+            if (currentGameState.isLock) return;
+            if (btn.innerText !== '❓') return; // sudah terbuka
+
+            sound.click();
+            btn.innerText = fruit;
+            btn.className = "aspect-square bg-white text-slate-800 border-4 border-sky-400 rounded-2xl text-4xl font-bold flex items-center justify-center shadow-inner transition-all transform scale-105";
+
+            if (!currentGameState.firstCard) {
+                currentGameState.firstCard = { button: btn, val: fruit, index: idx };
+            } else {
+                currentGameState.isLock = true;
+                // Cek kecocokan
+                if (currentGameState.firstCard.val === fruit && currentGameState.firstCard.index !== idx) {
+                    // Match!
+                    sound.success();
+                    currentGameState.matchedCount += 2;
+                    currentGameState.firstCard = null;
+                    currentGameState.isLock = false;
+
+                    if (currentGameState.matchedCount === 6) {
+                        setTimeout(() => {
+                            onGameCompleteSuccess();
+                        }, 600);
+                    }
+                } else {
+                    // No Match!
+                    sound.fail();
+                    setTimeout(() => {
+                        btn.innerText = '❓';
+                        btn.className = "aspect-square bg-sky-400 text-white rounded-2xl text-4xl font-bold flex items-center justify-center shadow-md transition-all hover:bg-sky-500";
+                        
+                        currentGameState.firstCard.button.innerText = '❓';
+                        currentGameState.firstCard.button.className = "aspect-square bg-sky-400 text-white rounded-2xl text-4xl font-bold flex items-center justify-center shadow-md transition-all hover:bg-sky-500";
+                        
+                        currentGameState.firstCard = null;
+                        currentGameState.isLock = false;
+                    }, 1000);
+                }
+            }
+        }
+
+        // Logic Click Star Size
+        function clickStarSize(btn, id) {
+            sound.click();
+            const expectedNext = currentGameState.targetOrder[currentGameState.currentClickOrder.length];
+            if (id === expectedNext) {
+                currentGameState.currentClickOrder.push(id);
+                btn.style.opacity = '0.3'; // penanda diklik
+                btn.disabled = true;
+
+                if (currentGameState.currentClickOrder.length === 3) {
+                    setTimeout(() => {
+                        onGameCompleteSuccess();
+                    }, 500);
+                }
+            } else {
+                sound.fail();
+                alertModal("Ah, urutan ukurannya belum tepat. Silakan ulangi!");
+                // Reset
+                initiateGamePlay('urutkan-ukuran');
+            }
+        }
+
+        // Logic check Kelompokkan Benda
+        function checkKelompokkan(item, category) {
+            const fruitGroup = ['🍎', '🍌', '🍇', '🍒'];
+            const animalGroup = ['🦁', '🐱', '🐼', '🦊'];
+
+            const isFruit = fruitGroup.includes(item);
+            if ((isFruit && category === 'Buah') || (!isFruit && category === 'Hewan')) {
+                sound.success();
+                onGameCompleteSuccess();
+            } else {
+                sound.fail();
+                alertModal("Benda ini dimasukkan ke keranjang yang kurang pas.");
+            }
+        }
+
+        // Logic Puzzle Cerita
+        function clickPuzzleOrder(btn, id) {
+            sound.click();
+            if (currentGameState.userOrder.includes(id)) return; // sudah diklik
+
+            currentGameState.userOrder.push(id);
+            const badge = document.getElementById(`badge-puz-${id}`);
+            badge.innerText = `Pilihan ke-${currentGameState.userOrder.length}`;
+            badge.className = "text-xs bg-indigo-500 text-white font-bold px-2 py-0.5 rounded-full";
+            btn.className = "p-4 bg-indigo-50 border-2 border-indigo-400 rounded-2xl font-bold text-left transition-all flex justify-between items-center";
+
+            if (currentGameState.userOrder.length === 3) {
+                // Evaluasi kebenaran urutan
+                if (JSON.stringify(currentGameState.userOrder) === JSON.stringify(currentGameState.correctOrder)) {
+                    setTimeout(() => {
+                        onGameCompleteSuccess();
+                    }, 600);
+                } else {
+                    sound.fail();
+                    setTimeout(() => {
+                        alertModal("Urutan kronologinya belum tepat, coba susun lagi.");
+                        initiateGamePlay('puzzle-cerita');
+                    }, 500);
+                }
+            }
+        }
+
+        // Logic Tebak Pola
+        function checkPola(choice) {
+            if (choice === '⭐') {
+                sound.success();
+                onGameCompleteSuccess();
+            } else {
+                sound.fail();
+                alertModal("Bukan pola itu, mari perhatikan bentuk sebelumnya!");
+            }
+        }
+
+        // Logic Berhitung Ceria
+        function checkBerhitung(chosen, actual) {
+            if (chosen === actual) {
+                sound.success();
+                onGameCompleteSuccess();
+            } else {
+                sound.fail();
+                alertModal("Bukan itu jumlah balonnya, yuk hitung ulang satu per satu.");
+            }
+        }
+
+        // Logic Labirin Pintar
+        function renderMaze() {
+            const playground = document.getElementById('game-playground');
+            playground.innerHTML = `
+                <!-- Grid Map 4x4 -->
+                <div class="grid grid-cols-4 gap-2 bg-slate-200 p-3 rounded-2xl border" id="maze-container">
+                    ${currentGameState.maze.map((row, y) => row.map((cell, x) => {
+                        let inner = '⬜';
+                        if (x === currentGameState.playerPos.x && y === currentGameState.playerPos.y) {
+                            inner = '🚗';
+                        } else if (cell === 'W') {
+                            inner = '🌳';
+                        } else if (cell === 'E') {
+                            inner = '🏠';
+                        }
+                        return `<div class="w-14 h-14 bg-white border flex items-center justify-center text-2xl rounded-xl shadow-sm transition-all" id="maze-cell-${x}-${y}">${inner}</div>`;
+                    }).join('')).join('')}
+                </div>
+
+                <!-- Tombol Navigasi Arah -->
+                <div class="flex flex-col items-center mt-4 space-y-2">
+                    <button onclick="movePlayer(0, -1)" class="w-12 h-12 bg-white border-2 border-slate-300 hover:border-sky-400 active:scale-95 rounded-xl font-bold flex items-center justify-center text-lg shadow-sm">⬆️</button>
+                    <div class="flex space-x-8">
+                        <button onclick="movePlayer(-1, 0)" class="w-12 h-12 bg-white border-2 border-slate-300 hover:border-sky-400 active:scale-95 rounded-xl font-bold flex items-center justify-center text-lg shadow-sm">⬅️</button>
+                        <button onclick="movePlayer(1, 0)" class="w-12 h-12 bg-white border-2 border-slate-300 hover:border-sky-400 active:scale-95 rounded-xl font-bold flex items-center justify-center text-lg shadow-sm">➡️</button>
+                    </div>
+                    <button onclick="movePlayer(0, 1)" class="w-12 h-12 bg-white border-2 border-slate-300 hover:border-sky-400 active:scale-95 rounded-xl font-bold flex items-center justify-center text-lg shadow-sm">⬇️</button>
+                </div>
+            `;
+        }
+
+        function movePlayer(dx, dy) {
+            const newX = currentGameState.playerPos.x + dx;
+            const newY = currentGameState.playerPos.y + dy;
+
+            // Validasi batas grid 4x4
+            if (newX >= 0 && newX < 4 && newY >= 0 && newY < 4) {
+                // Validasi dinding
+                if (currentGameState.maze[newY][newX] !== 'W') {
+                    sound.click();
+                    currentGameState.playerPos.x = newX;
+                    currentGameState.playerPos.y = newY;
+                    renderMaze();
+
+                    // Cek jika mencapai target akhir
+                    if (currentGameState.maze[newY][newX] === 'E') {
+                        setTimeout(() => {
+                            onGameCompleteSuccess();
+                        }, 500);
+                    }
+                } else {
+                    sound.fail();
+                }
+            } else {
+                sound.fail();
+            }
+        }
+
+        // Logic Pecahkan Misteri
+        function checkMisteri(name, isCorrect) {
+            if (isCorrect) {
+                sound.success();
+                onGameCompleteSuccess();
+            } else {
+                sound.fail();
+                alertModal(`Ups! ${name} berbahan padat & berat, sehingga tenggelam ke dasar air.`);
+            }
+        }
+
+        // Logic check Matematika
+        function checkMatematika(chosen, correct) {
+            if (chosen === correct) {
+                sound.success();
+                onGameCompleteSuccess();
+            } else {
+                sound.fail();
+                alertModal("Matematikamu belum pas, coba hitung kembali di kertas!");
+            }
+        }
+
+        // Logic Susun Kata
+        function clickLetter(btn, letter) {
+            sound.click();
+            const targetWord = currentGameState.correctWord;
+            const expectedNextLetter = targetWord[currentGameState.userWord.length];
+
+            if (letter === expectedNextLetter) {
+                currentGameState.userWord += letter;
+                
+                // Update Target Box
+                const box = document.getElementById('word-target-box');
+                box.innerText = currentGameState.userWord + " _ ".repeat(targetWord.length - currentGameState.userWord.length);
+                btn.style.opacity = '0.3';
+                btn.disabled = true;
+
+                if (currentGameState.userWord === targetWord) {
+                    setTimeout(() => {
+                        onGameCompleteSuccess();
+                    }, 500);
+                }
+            } else {
+                sound.fail();
+                alertModal("Hurufnya belum pas untuk mengeja K-U-C-I-N-G.");
+                // Reset
+                initiateGamePlay('susun-kata');
+            }
+        }
+
+        // Logic Coding Sederhana
+        function addCodingCommand(direction) {
+            sound.click();
+            if (currentGameState.commands.length >= 6) {
+                alertModal("Antrean perintah pemrograman sudah penuh!");
+                return;
+            }
+            currentGameState.commands.push(direction);
+            renderCodingCommands();
+        }
+
+        function clearCodingCommands() {
+            sound.click();
+            currentGameState.commands = [];
+            renderCodingCommands();
+        }
+
+        function renderCodingCommands() {
+            const queue = document.getElementById('coding-commands-queue');
+            if (currentGameState.commands.length === 0) {
+                queue.innerHTML = `<span class="text-xs text-indigo-400">Belum ada instruksi</span>`;
+            } else {
+                queue.innerHTML = currentGameState.commands.map(cmd => `
+                    <span class="bg-indigo-600 text-white font-bold p-1 px-2.5 rounded-lg text-sm">${cmd}</span>
+                `).join('');
+            }
+        }
+
+        function executeCodingSequence() {
+            sound.click();
+            if (currentGameState.commands.length === 0) {
+                alertModal("Masukkan instruksi arah dulu!");
+                return;
+            }
+
+            // Jalankan pergerakan robot selangkah demi selangkah
+            let currentX = 0;
+            let currentY = 0;
+            let stepIndex = 0;
+
+            const interval = setInterval(() => {
+                if (stepIndex >= currentGameState.commands.length) {
+                    clearInterval(interval);
+                    // Selesai, cek apakah robot sampai di (3,3) -> Indeks ke 15
+                    if (currentX === 3 && currentY === 3) {
+                        onGameCompleteSuccess();
+                    } else {
+                        sound.fail();
+                        alertModal("Robotnya belum sampai ke roket tujuan. Ayo coba arah instruksi baru!");
+                        // Reset visual grid
+                        initiateGamePlay('coding-sederhana');
+                    }
+                    return;
+                }
+
+                // Hapus robot lama dari grid lama
+                const oldIdx = currentY * 4 + currentX;
+                document.getElementById(`code-cell-${oldIdx}`).innerText = '⬜';
+
+                const cmd = currentGameState.commands[stepIndex];
+                if (cmd === '➡️') {
+                    currentX = Math.min(3, currentX + 1);
+                } else if (cmd === '⬇️') {
+                    currentY = Math.min(3, currentY + 1);
+                }
+
+                // Letakkan robot di grid baru
+                const newIdx = currentY * 4 + currentX;
+                document.getElementById(`code-cell-${newIdx}`).innerText = '🤖';
+                sound.click();
+
+                stepIndex++;
+            }, 600);
+        }
+
+        // ==============================================
+        // PARENT DASHBOARD: RENDERING DATA & ANALISIS
+        // ==============================================
+        function renderParentDashboard() {
+            // Update Samping
+            document.getElementById('parent-monitor-child-name').innerText = appState.child.name;
+            document.getElementById('parent-monitor-child-meta').innerText = `Anak Usia ${appState.child.age} Tahun`;
+
+            // Hitung nilai statistik
+            const totalGamesPlayedToday = appState.history.filter(h => h.date === "2026-06-30").length;
+            const avgScore = appState.history.length > 0 ? Math.round(appState.history.reduce((acc, cur) => acc + cur.score, 0) / appState.history.length) : 0;
+            const totalDuration = appState.history.length * 4; // Estimasi 4 menit per game
+
+            document.getElementById('parent-stat-completed').innerText = `${totalGamesPlayedToday} Game`;
+            document.getElementById('parent-stat-avg').innerText = avgScore;
+            document.getElementById('parent-stat-duration').innerText = `${totalDuration} Menit`;
+
+            // Rendertabel riwayat
+            const tableBody = document.getElementById('parent-history-table-body');
+            if (appState.history.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-400">Belum ada riwayat pengerjaan game.</td></tr>`;
+            } else {
+                // Sorting riwayat dari tanggal terbaru
+                const sortedHistory = [...appState.history].reverse();
+                tableBody.innerHTML = sortedHistory.map(item => `
+                    <tr class="hover:bg-slate-50 border-b">
+                        <td class="py-3 px-4 text-xs font-semibold text-slate-400">${item.date}</td>
+                        <td class="py-3 px-4 font-bold text-slate-800">${item.gameName}</td>
+                        <td class="py-3 px-4"><span class="bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded text-xs font-bold">Usia ${item.ageGroup}</span></td>
+                        <td class="py-3 px-4 text-emerald-500 font-bold">${item.score}</td>
+                        <td class="py-3 px-4 font-medium text-slate-500">${item.category}</td>
+                    </tr>
+                `).join('');
+            }
+
+            // Evaluasi Indikator & Status Aspek Tumbuh Kembang
+            const categoriesToAnalyze = [
+                { name: 'Mengenal Pola', status: 'Sangat Baik', color: 'bg-emerald-100 text-emerald-800' },
+                { name: 'Logika Sederhana', status: 'Baik', color: 'bg-sky-100 text-sky-800' },
+                { name: 'Berhitung', status: 'Berkembang Sangat Baik', color: 'bg-emerald-100 text-emerald-800' },
+                { name: 'Memori', status: 'Sesuai Harapan', color: 'bg-indigo-100 text-indigo-800' },
+                { name: 'Konsentrasi', status: 'Perlu Latihan', color: 'bg-rose-100 text-rose-800' },
+                { name: 'Pemecahan Masalah', status: 'Baik', color: 'bg-sky-100 text-sky-800' }
+            ];
+
+            const indicatorsContainer = document.getElementById('parent-indicators-container');
+            indicatorsContainer.innerHTML = categoriesToAnalyze.map(cat => `
+                <div class="flex items-center justify-between border-b pb-2">
+                    <span class="font-bold text-sm text-slate-700">${cat.name}</span>
+                    <span class="px-3 py-1 rounded-full text-xs font-extrabold ${cat.color}">${cat.status}</span>
+                </div>
+            `).join('');
+
+            // Rekomendasi Pintar berdasarkan nilai Konsentrasi "Perlu Latihan"
+            const recList = document.getElementById('parent-recommendations-list');
+            recList.innerHTML = `
+                <div class="border-2 border-slate-100 p-4 rounded-2xl flex items-start space-x-3 hover:border-slate-200 transition-all">
+                    <div class="text-2xl mt-0.5">⚠️</div>
+                    <div>
+                        <h4 class="font-bold text-slate-800">Konsentrasi Anak Perlu Ditingkatkan</h4>
+                        <p class="text-xs md:text-sm text-slate-500 mt-1">
+                            Berdasarkan performa pengerjaan game, skor konsentrasi ananda ${appState.child.name} masih berada di bawah target mingguan. Disarankan bermain <strong>Memory Card sebanyak 3 kali</strong> minggu ini.
+                        </p>
+                    </div>
+                </div>
+                <div class="border-2 border-slate-100 p-4 rounded-2xl flex items-start space-x-3 hover:border-slate-200 transition-all">
+                    <div class="text-2xl mt-0.5">🚀</div>
+                    <div>
+                        <h4 class="font-bold text-emerald-700">Kemampuan Berhitung Sangat Berkembang</h4>
+                        <p class="text-xs md:text-sm text-slate-500 mt-1">
+                            Kemampuan numerasi spasial ananda tumbuh pesat sekali! Anak dapat mencoba mengeksplorasi game matematika level berikutnya pada kelompok usia 6 Tahun.
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function switchParentTab(tabName) {
+            sound.click();
+            const tabs = ['beranda', 'riwayat', 'rekomendasi', 'pengaturan'];
+            tabs.forEach(t => {
+                document.getElementById(`parent-tab-${t}`).classList.add('hidden');
+                document.getElementById(`btn-tab-${t}`).className = "parent-menu-btn w-full flex items-center space-x-3 px-4 py-3 rounded-2xl font-bold transition-all text-slate-600 hover:bg-slate-50";
+            });
+
+            document.getElementById(`parent-tab-${tabName}`).classList.remove('hidden');
+            document.getElementById(`btn-tab-${tabName}`).className = "parent-menu-btn w-full flex items-center space-x-3 px-4 py-3 rounded-2xl font-bold transition-all text-indigo-600 bg-indigo-50";
+
+            if (tabName === 'beranda') {
+                renderParentDashboard();
+            }
+        }
+
+        // Simulasikan Reset Data Segar
+        function simulateFreshData() {
+            sound.victory();
+            loadDefaultSimulatedData();
+            renderParentDashboard();
+            alertModal("Data baru berhasil disimulasikan! Grafik & ringkasan kognitif telah diperbarui.");
+        }
+
+        function clearHistory() {
+            sound.click();
+            appState.history = [];
+            renderParentDashboard();
+            alertModal("Seluruh riwayat bermain telah dibersihkan.");
+        }
+    </script>
+</body>
+</html>
